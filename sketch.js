@@ -53,7 +53,7 @@ function draw() {
 		drawGrid();
 	}
 	if (gridSwitch == false) {
-		background(0, 20);
+		background(0);
 	}
 
 	// stars
@@ -65,7 +65,7 @@ function draw() {
 		showText();
 	}
 	if (textSwitch == false) {
-		background(0, 20);
+		background(0, 10);
 	}
 }
 
