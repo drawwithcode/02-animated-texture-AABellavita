@@ -7,6 +7,8 @@ let n_rows;
 let s;
 let cs = 0;
 let ci = 0;
+let stx;
+let sty;
 let textSwitch = true;
 let gridSwitch = true;
 
@@ -14,7 +16,7 @@ function createCells() {
 	// get the number of cells
 	n_cols = floor(width / cellSize);
 	n_rows = floor(height / cellSize)
-
+	// create the grid
 	cells = [];
 	for (let i = 0; i < n_cols * n_rows; i++) {
 		const col = i % n_cols;
@@ -40,27 +42,68 @@ function draw() {
 	background(0);
 	t += 0.025;
 
-	// grid
-	if (gridSwitch == true) {
-		push()
-		strokeWeight(1);
-		drawGrid();
-		pop()
-	}
-	if (gridSwitch == false) {
-		push()
-		background(0, 20);
-		pop()
-	}
-
 	// color iterator
 	ci++;
-	//console.log(ci);
 	if (ci == 255) {
 		ci = 0;
 	}
 
+	// grid
+	if (gridSwitch == true) {
+		drawGrid();
+	}
+	if (gridSwitch == false) {
+		background(0, 20);
+	}
+
 	// update stars
+	updateStars();
+
+	// draw stars
+	drawStars();
+
+	// text
+	if (textSwitch == true) {
+		showText();
+	}
+	if (textSwitch == false) {
+		background(0, 20);
+	}
+}
+
+// star shape
+function star(x, y, radius1, radius2, npoints) {
+	let angle = TWO_PI / npoints;
+	let halfAngle = angle / 2.0;
+	beginShape();
+	for (let i = 0; i < TWO_PI; i += angle) {
+		stx = x + cos(i) * radius2;
+		sty = y + sin(i) * radius2;
+		vertex(stx, sty);
+		stx = x + cos(i + halfAngle) * radius1;
+		sty = y + sin(i + halfAngle) * radius1;
+		vertex(stx, sty);
+	}
+	endShape(CLOSE);
+}
+
+//draw grid
+function drawGrid() {
+	push()
+	strokeWeight(2);
+	stroke(50, 50, 50);
+	// grid lines
+	for (let i = 0; i < floor(width / cellSize); i++) {
+		line(i * cellSize, 0, i * cellSize, height);
+	}
+	for (let i = 0; i < floor(height / cellSize); i++) {
+		line(0, i * cellSize, width, i * cellSize);
+	}
+	pop();
+}
+
+// update star
+function updateStars() {
 	cells.forEach((s, i) => {
 		const col = i % n_cols;
 		const row = floor(i / n_cols);
@@ -120,64 +163,33 @@ function draw() {
 			});
 		}
 	}
+}
 
-	// draw stars
+// draw star
+function drawStars() {
 	noStroke();
 	cells.forEach((s, i) => {
 		star(s.x, s.y, s.dm1 * noise(i) * 3, s.dm2 * noise(i) * 3, 4);
 	});
-
-	// text
-	if (textSwitch == true) {
-		push();
-		fill(0);
-		stroke(255);
-		strokeWeight(5);
-		rectMode(CENTER);
-		rect(width / 2, height / 2 - 10, 400, 200, 25);
-		pop();
-		push();
-		textSize(25);
-		textAlign(CENTER);
-		textFont("helvetica");
-		fill(255);
-		text("Press G to toggle the grid\nPress C to change colors\nPress S to save a picture\nPress T to toggle the text",
-			width / 2, height / 2 - 50);
-		pop()
-	}
-	if (textSwitch == false) {
-		push()
-		background(0, 20);
-		pop()
-	}
 }
 
-// star shape
-function star(x, y, radius1, radius2, npoints) {
-	let angle = TWO_PI / npoints;
-	let halfAngle = angle / 2.0;
-	beginShape();
-	for (let i = 0; i < TWO_PI; i += angle) {
-		let stx = x + cos(i) * radius2;
-		let sty = y + sin(i) * radius2;
-		vertex(stx, sty);
-		stx = x + cos(i + halfAngle) * radius1;
-		sty = y + sin(i + halfAngle) * radius1;
-		vertex(stx, sty);
-	}
-	endShape(CLOSE);
-}
-
-// draw grid
-function drawGrid() {
-	stroke(50, 50, 50)
-
-	for (let i = 0; i < floor(width / cellSize); i++) {
-		line(i * cellSize, 0, i * cellSize, height);
-	}
-	for (let i = 0; i < floor(height / cellSize); i++) {
-		line(0, i * cellSize, width, i * cellSize);
-	}
+// show text
+function showText() {
+	push();
+	fill(0);
+	stroke(255);
+	strokeWeight(5);
+	rectMode(CENTER);
+	rect(width / 2, height / 2 - 10, 400, 200, 25);
+	pop();
+	push();
+	textSize(25);
+	textAlign(CENTER);
+	textFont("helvetica");
+	fill(255);
+	text("Press G to toggle the grid\nPress C to change colors\nPress S to save a picture\nPress T to toggle the text",
+		width / 2, height / 2 - 50);
+	pop()
 }
 
 // actions
