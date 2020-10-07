@@ -56,12 +56,6 @@ function draw() {
 		background(0, 20);
 	}
 
-	// update stars
-	updateStars();
-
-	// draw stars
-	drawStars();
-
 	// text
 	if (textSwitch == true) {
 		showText();
@@ -69,6 +63,10 @@ function draw() {
 	if (textSwitch == false) {
 		background(0, 20);
 	}
+
+	// stars
+	updateStars();
+	drawStars();
 }
 
 // star shape
@@ -89,7 +87,7 @@ function star(x, y, radius1, radius2, npoints) {
 
 //draw grid
 function drawGrid() {
-	push()
+	push();
 	strokeWeight(2);
 	stroke(50, 50, 50);
 	// grid lines
@@ -167,10 +165,12 @@ function updateStars() {
 
 // draw star
 function drawStars() {
+	push();
 	noStroke();
 	cells.forEach((s, i) => {
 		star(s.x, s.y, s.dm1 * noise(i) * 3, s.dm2 * noise(i) * 3, 4);
 	});
+	pop();
 }
 
 // show text
@@ -189,7 +189,7 @@ function showText() {
 	fill(255);
 	text("Press G to toggle the grid\nPress C to change colors\nPress S to save a picture\nPress T to toggle the text",
 		width / 2, height / 2 - 50);
-	pop()
+	pop();
 }
 
 // actions
