@@ -85,7 +85,7 @@ function star(x, y, radius1, radius2, npoints) {
 	endShape(CLOSE);
 }
 
-//draw grid
+// draw grid
 function drawGrid() {
 	push();
 	strokeWeight(2);
