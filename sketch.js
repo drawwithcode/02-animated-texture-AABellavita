@@ -1,4 +1,4 @@
-// Var
+// var
 const cellSize = 119;
 let cells;
 let t = 0;
@@ -10,15 +10,12 @@ let ci = 0;
 let textSwitch = true;
 let gridSwitch = true;
 
-function setup() {
-
-	createCanvas(windowWidth, windowHeight);
-
+function createCells() {
+	// get the number of cells
 	n_cols = floor(width / cellSize);
 	n_rows = floor(height / cellSize)
 
 	cells = [];
-
 	for (let i = 0; i < n_cols * n_rows; i++) {
 		const col = i % n_cols;
 		const row = floor(i / n_cols);
@@ -28,8 +25,18 @@ function setup() {
 	}
 }
 
-function draw() {
+function setup() {
+	createCanvas(windowWidth, windowHeight);
+	createCells();
+}
 
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+	createCells();
+}
+
+function draw() {
+	// start drawing
 	background(0);
 	t += 0.025;
 
