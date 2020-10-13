@@ -1,5 +1,5 @@
 // var
-const cellSize = 119;
+const cellSize = 120;
 let cells;
 let t = 0;
 let n_cols;
